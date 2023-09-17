@@ -2,8 +2,8 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CompanyModel from "../models/CompanyModel";
 import { Link } from "react-router-dom";
-import { getAllCompanies } from "../slices/companiesListSlice";
 import { AppDispatch } from "../store";
+import { getAllCompanies } from "../slices/companiesSlice";
 
 export const ClientList = () => {
 
@@ -111,7 +111,7 @@ export const ClientList = () => {
     
                             <Link
                                 to={"/company-edit/" + currentCompany.id}
-                                className="badge badge-warning"
+                                className="badge"
                             >
                                 Edit
                             </Link>

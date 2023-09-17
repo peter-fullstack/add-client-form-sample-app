@@ -37,7 +37,7 @@ namespace ClientDetailsApp.Controllers
 
         // GET: api/CompanyDetails/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CompanyDetails>> GetCompanyDetails(int id)
+        public async Task<ActionResult<CompanyDetails>> GetCompanyDetails(Guid id)
         {
           if (_context.CompanyDetails == null)
           {
@@ -54,7 +54,6 @@ namespace ClientDetailsApp.Controllers
         }
 
         // PUT: api/CompanyDetails/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompanyDetails(Guid id, CompanyDetails companyDetails)
         {
@@ -85,7 +84,6 @@ namespace ClientDetailsApp.Controllers
         }
 
         // POST: api/CompanyDetails
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<CompanyDetails>> PostCompanyDetails(CompanyDetails companyDetails)
         {
@@ -96,7 +94,7 @@ namespace ClientDetailsApp.Controllers
             _context.CompanyDetails.Add(companyDetails);
             await _context.SaveChangesAsync();
 
-            return Ok(companyDetails);// CreatedAtAction("GetCompanyDetails", new { id = companyDetails.Id }, companyDetails);
+            return Ok(companyDetails);
         }
 
         // DELETE: api/CompanyDetails/5

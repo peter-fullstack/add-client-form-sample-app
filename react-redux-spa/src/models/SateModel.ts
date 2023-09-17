@@ -3,6 +3,6 @@ import { fetchStatus } from "./FetchStatus";
 
 export class StateModel {
     loadingStatus: fetchStatus = fetchStatus.idle;
-    currentCompany: CompanyModel | null = null;
+    currentCompany: CompanyModel = new CompanyModel();
     companies: CompanyModel[] = [];
 }

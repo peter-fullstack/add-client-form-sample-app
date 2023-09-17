@@ -33,7 +33,7 @@ function App() {
           <Route path="/" element={<ClientList />} />
           <Route path="/clients" element={<ClientList />} />
           <Route path="/add-client" element={<AddClient />} />
-          <Route path="/edit-client/:id" element={<EditClient />} />
+          <Route path="/company-edit/:id" element={<EditClient />} />
         </Routes>
       </div>
 

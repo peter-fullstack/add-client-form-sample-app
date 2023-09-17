@@ -13,10 +13,15 @@ const getAll = async (): Promise<any> => {
     return http.get("/companydetails/");
 };
 
+const getCompanyById = async (id: string): Promise<any> => {
+    return http.get("/companydetails/" + id);
+};
+
 const CompanyService = {
     create,
     update,
-    getAll
+    getAll,
+    getCompanyById
 };
 
 export default CompanyService;
