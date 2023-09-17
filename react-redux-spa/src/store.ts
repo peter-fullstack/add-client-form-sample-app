@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import companiesReducer from './slices/companiesSlice';
-
+import companiesListReducer from './slices/companiesListSlice';
 const reducer = {
-   companies: companiesReducer
+   companies: companiesReducer,
+   companiesList: companiesListReducer
 }
 
 const store = configureStore({

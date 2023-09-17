@@ -9,9 +9,14 @@ const update = async (data: CompanyModel): Promise<any> => {
     return http.put("/companydetails/" + data.id, data);
 };
 
+const getAll = async (): Promise<any> => {
+    return http.get("/companydetails/");
+};
+
 const CompanyService = {
     create,
-    update
+    update,
+    getAll
 };
 
 export default CompanyService;

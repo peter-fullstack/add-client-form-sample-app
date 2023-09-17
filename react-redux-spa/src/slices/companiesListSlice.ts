@@ -3,34 +3,12 @@ import { StateModel } from "../models/SateModel";
 import CompanyService from "../services/CompanyService";
 import CompanyModel from "../models/CompanyModel";
 import { fetchStatus } from "../models/FetchStatus";
+import { CompanylistStateModel } from "../models/CompanyListSateModel";
 
-const initialState:  StateModel = {
+const initialState:  CompanylistStateModel = {
   loadingStatus: fetchStatus.idle,
-  currentCompany:  new CompanyModel(),
   companies: []
 };
-
-export const createCompany = createAsyncThunk<CompanyModel, CompanyModel>(
-  "company/create",
-  async (company: CompanyModel) => {
-    const res = await CompanyService.create(company);
-
-    var model = res.data;
-
-    return model;
-  }
-);
-
-export const updateCompany = createAsyncThunk<CompanyModel, CompanyModel>(
-  "company/create",
-  async (company: CompanyModel) => {
-    const res = await CompanyService.update(company);
-
-    var model = res.data;
-
-    return model;
-  }
-);
 
 export const getAllCompanies = createAsyncThunk<Array<CompanyModel>>(
   "company-list/get-all",
@@ -43,20 +21,17 @@ export const getAllCompanies = createAsyncThunk<Array<CompanyModel>>(
   }
 );
 
-const companiesSlice = createSlice({
-  name: "companies",
+const companiesListSlice = createSlice({
+  name: "companiesList",
   initialState,
   reducers: {
-    setNewCompany: (state) => {
-      state.currentCompany = new CompanyModel();
-    }
   },
   extraReducers: (builder) => {
     
-      builder.addCase(getAllCompanies.fulfilled, (state: any, action: any) => {
-        state.loadingStatus = fetchStatus.success;
-        state.companies = action.payload;
-      });
+    // builder.addCase(createCompany.fulfilled, (state: any, action: any) => {
+    //     state.loadingStatus = fetchStatus.success;
+    //     state.currentCompany = action.payload;
+    //   });
 
       // builder.addCase(createCompany.pending, (state) => {
       //   state.loadingStatus = fetchStatus.loading;
@@ -66,16 +41,16 @@ const companiesSlice = createSlice({
       //   state.loadingStatus = fetchStatus.error;
       // });
 
-      builder.addMatcher(isAnyOf (createCompany.pending, updateCompany.pending), (state: any, action: any) => {
+      builder.addMatcher(isAnyOf (getAllCompanies.pending), (state: CompanylistStateModel, action: any) => {
         state.loadingStatus = fetchStatus.loading;
       });
 
-      builder.addMatcher(isAnyOf (createCompany.fulfilled, updateCompany.fulfilled), (state: any, action: any) => {
+      builder.addMatcher(isAnyOf (getAllCompanies.fulfilled), (state: CompanylistStateModel, action: any) => {
         state.loadingStatus = fetchStatus.success;
-        state.currentCompany = action.payload;
+        state.companies = action.payload;
       });
 
-      builder.addMatcher(isAnyOf (createCompany.rejected, updateCompany.rejected), (state: any) => {
+      builder.addMatcher(isAnyOf (getAllCompanies.rejected), (state: any) => {
         state.loadingStatus = fetchStatus.error;
       });
 
@@ -94,6 +69,5 @@ const companiesSlice = createSlice({
   }
 });
 
-export const { setNewCompany } = companiesSlice.actions
-const { reducer } = companiesSlice;
+const { reducer } = companiesListSlice;
 export default reducer;
