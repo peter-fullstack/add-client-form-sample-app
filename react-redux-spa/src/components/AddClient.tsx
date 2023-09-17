@@ -1,62 +1,34 @@
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import CompanyModel from "../models/CompanyModel";
 import { useDispatch, useSelector } from "react-redux";
-import { createCompany } from "../slices/companiesSlice";
-import { AnyAction } from "@reduxjs/toolkit";
+import { createCompany, updateCompany } from "../slices/companiesSlice";
 import { AppDispatch } from "../store";
-import { StateModel } from "../models/SateModel";
 import { fetchStatus } from "../models/FetchStatus";
-// import { useDispatch } from "react-redux";
-//import { createTutorial } from "../slices/clients";
 
 export const AddClient = () => {
-    const initialCompanyState: CompanyModel = {
-        id: null,
-        companyName: "",
-        address: "",
-        city: "",
-        state: "",
-    };
-
+   
     const state = useSelector((state: any) => {
         return state.companies;
     });
 
-    const [company, setCompany] = useState(initialCompanyState);
-    const [submitted, setSubmitted] = useState(false);
+    const [company, setCompany] = useState(new CompanyModel());
 
     const dispatch = useDispatch<AppDispatch>();
-
+    
     const handleInputChange = (event: FormEvent<HTMLInputElement>) => {
         const { name, value } = event.currentTarget;
         setCompany({ ...company, [name]: value });
     };
 
     const saveTutorial = () => {
-        const { companyName, address, city, state } = company;
 
-        dispatch(createCompany(company));
+        if(state.currentCompany.id === null) {
+            dispatch(createCompany(company));
+        } else {
+            dispatch(updateCompany(company));
+        }
 
-        //         .unwrap()
-        //         .then((data: CompanyModel) => {
-        //             console.log(data);
-        //             setCompany({
-        //                 id: data.id,
-        //                 address: data.address,
-        //                 companyName: data.companyName,
-        //                 city: data.city,
-        //                 state: data.state})
-        //             setSubmitted(true);
-        //         })
-        //         .catch(e => {
-        //             console.log(e);
-        //         });
-        // 
-    };
-
-    const newTutorial = () => {
-        setCompany(initialCompanyState);
-        setSubmitted(false);
+        setCompany(state.currentCompany);
     };
 
     return (
@@ -119,66 +91,63 @@ export const AddClient = () => {
                     </div>
                 </div>
 
-                {/* <div className="card">
+                <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Contact</h5>
                             <div className="form-group">
-                                <label htmlFor="companyName">Contact Name</label>
+                                <label htmlFor="contactName">Contact Name</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="companyName"
+                                    id="contactName"
                                     required
-                                    value={tutorial.title || ''}
+                                    value={company.contactName || ''}
                                     onChange={handleInputChange}
-                                    name="companyName"
+                                    name="contactName"
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="address">Role</label>
+                                <label htmlFor="role">Role</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="address"
+                                    id="role"
                                     required
-                                    value={tutorial.description || ''}
+                                    value={company.role || ''}
                                     onChange={handleInputChange}
-                                    name="address"
+                                    name="role"
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="address">Email</label>
+                                <label htmlFor="email">Email</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="address"
+                                    id="email"
                                     required
-                                    value={tutorial.description || ''}
+                                    value={company.email || ''}
                                     onChange={handleInputChange}
-                                    name="address"
+                                    name="email"
                                 />
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="address">Mobile</label>
+                                <label htmlFor="mobile">Mobile</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="address"
+                                    id="mobile"
                                     required
-                                    value={tutorial.description || ''}
+                                    value={company.mobile || ''}
                                     onChange={handleInputChange}
-                                    name="address"
+                                    name="mobile"
                                 />
                             </div>
 
-                            <button onClick={saveTutorial} className="btn btn-success">
-                                Save
-                            </button>
                         </div>
-                    </div> */}
+                    </div> 
 
                 <button onClick={saveTutorial} className="btn btn-success" style={{width: "200px"}}>
                     {state.loadingStatus === fetchStatus.loading ? (

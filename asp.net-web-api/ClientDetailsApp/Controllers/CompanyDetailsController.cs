@@ -96,7 +96,7 @@ namespace ClientDetailsApp.Controllers
             _context.CompanyDetails.Add(companyDetails);
             await _context.SaveChangesAsync();
 
-            return Ok();// CreatedAtAction("GetCompanyDetails", new { id = companyDetails.Id }, companyDetails);
+            return Ok(companyDetails);// CreatedAtAction("GetCompanyDetails", new { id = companyDetails.Id }, companyDetails);
         }
 
         // DELETE: api/CompanyDetails/5

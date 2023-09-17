@@ -14,16 +14,22 @@ namespace ClientDetailsApp.Models
         [StringLength(60)]
         public string Address { get; set; } = "";
 
-        //[StringLength(60)]
-        //public string ContactName { get; set; }
+        [StringLength(60)]
+        public string City { get; set; } = "";
 
-        //[StringLength(60)]
-        //public string ContactJobTitle { get; set; }
+        [StringLength(60)]
+        public string State { get; set; } = "";
 
-        //[StringLength(60)]
-        //public string ContactEmail { get; set; }
+        [StringLength(60)]
+        public string ContactName { get; set; } = "";
 
-        //[StringLength(60)]
-        //public string ContactMobile { get; set; }
+        [StringLength(60)]
+        public string JobTitle { get; set; } = "";
+
+        [StringLength(60)]
+        public string Email { get; set; } = "";
+
+        [StringLength(60)]
+        public string Mobile { get; set; } = "";
     }
 }
