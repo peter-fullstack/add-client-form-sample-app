@@ -14,23 +14,18 @@ namespace ClientDetailsApp.Controllers
     [ApiController]
     public class CompanyDetailsController : ControllerBase
     {
-        private readonly CompanyDetailsAppContext _context;
+        private readonly IRepository<CompanyDetails> _repository;
 
-        public CompanyDetailsController(CompanyDetailsAppContext context)
+        public CompanyDetailsController(IRepository<CompanyDetails> context)
         {
-            _context = context;
+            _repository = context;
         }
 
         // GET: api/CompanyDetails
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompanyDetails>>> GetCompanyDetails()
         {
-          if (_context.CompanyDetails == null)
-          {
-              return NotFound();
-          }
-
-          var companies = await _context.CompanyDetails.ToListAsync();
+          var companies = await _repository.GetAll();
 
           return companies;
         }
@@ -39,11 +34,7 @@ namespace ClientDetailsApp.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyDetails>> GetCompanyDetails(Guid id)
         {
-          if (_context.CompanyDetails == null)
-          {
-              return NotFound();
-          }
-            var companyDetails = await _context.CompanyDetails.FindAsync(id);
+            var companyDetails = await _repository.Get(id);
 
             if (companyDetails == null)
             {
@@ -62,23 +53,7 @@ namespace ClientDetailsApp.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(companyDetails).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CompanyDetailsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _repository.Update(companyDetails);
 
             return NoContent();
         }
@@ -87,39 +62,18 @@ namespace ClientDetailsApp.Controllers
         [HttpPost]
         public async Task<ActionResult<CompanyDetails>> PostCompanyDetails(CompanyDetails companyDetails)
         {
-          if (_context.CompanyDetails == null)
-          {
-              return Problem("Entity set 'ClientDetailsAppContext.CompanyDetails'  is null.");
-          }
-            _context.CompanyDetails.Add(companyDetails);
-            await _context.SaveChangesAsync();
-
-            return Ok(companyDetails);
+            var company = await _repository.Add(companyDetails);
+         
+            return Ok(company);
         }
 
         // DELETE: api/CompanyDetails/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCompanyDetails(int id)
+        public async Task<IActionResult> DeleteCompanyDetails(Guid id)
         {
-            if (_context.CompanyDetails == null)
-            {
-                return NotFound();
-            }
-            var companyDetails = await _context.CompanyDetails.FindAsync(id);
-            if (companyDetails == null)
-            {
-                return NotFound();
-            }
-
-            _context.CompanyDetails.Remove(companyDetails);
-            await _context.SaveChangesAsync();
-
+            await _repository.Delete(id);
+           
             return NoContent();
-        }
-
-        private bool CompanyDetailsExists(Guid id)
-        {
-            return (_context.CompanyDetails?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

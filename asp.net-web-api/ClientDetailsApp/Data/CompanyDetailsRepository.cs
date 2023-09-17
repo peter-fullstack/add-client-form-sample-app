@@ -6,7 +6,6 @@ namespace ClientDetailsApp.Data
     {
         public CompanyDetailsRepository(CompanyDetailsAppContext context) : base(context)
         {
-
         }
     }
 }
