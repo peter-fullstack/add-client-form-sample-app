@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCompany, setLoadingStatus, updateCompany } from "../slices/companiesSlice";
 import { AppDispatch } from "../store";
 import { fetchStatus } from "../models/FetchStatus";
-import { StateModel } from "../models/SateModel";
-import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 export const AddClient = () => {
 
@@ -13,14 +12,15 @@ export const AddClient = () => {
         return state.companies;
     });
 
-    const notify = () => toast("Success");
+    const navigate = useNavigate();
 
-    const [company, setCompany] = useState(state.currentCompany);
+    const [company, setCompany] = useState(new CompanyModel());
 
     const dispatch = useDispatch<AppDispatch>();
 
     if (state.loadingStatus === fetchStatus.success) {
-        notify();
+        dispatch(setLoadingStatus());
+        navigate("/");
     }
 
     const handleInputChange = (event: FormEvent<HTMLInputElement>) => {
@@ -32,16 +32,8 @@ export const AddClient = () => {
         setCompany({ ...company, [name]: value });
     };
 
-    const saveTutorial = () => {
-
-        if (state.currentCompany.id === null) {
-            dispatch(createCompany(company));
-        } else {
-            let companyUpdate = { ...company };
-            companyUpdate.id = state.currentCompany.id;
-            setCompany(companyUpdate)
-            dispatch(updateCompany(companyUpdate));
-        }
+    const saveCompany = () => {
+        dispatch(createCompany(company));
     };
 
     return (
@@ -171,7 +163,7 @@ export const AddClient = () => {
                 </div>
                 <div className="row">
                     <div className="col-6">
-                        <button onClick={saveTutorial} className="btn btn-success" style={{ width: "200px", margin: "10px"}}>
+                        <button onClick={saveCompany} className="btn btn-success" style={{ width: "200px", margin: "10px" }}>
                             {state.loadingStatus === fetchStatus.loading ? (
                                 <div>
                                     <span className="spinner-border spinner-border-sm">
@@ -185,33 +177,25 @@ export const AddClient = () => {
                             )}
                         </button>
                     </div>
-                    <div className="col-6" style={{ padding: "10px", color: "red"}}>
+                    <div className="col-6" style={{ padding: "10px", color: "red" }}>
 
                         {state.loadingStatus === fetchStatus.error ? (
                             <span>
                                 Sorry there was an error saving company details
                             </span>
                         ) : (
-                            null
+                            state.loadingStatus === fetchStatus.success ? (
+                                <span style={{ color: "green" }}>
+                                    Update successful
+                                </span>
+                            ) : (
+                                null
+                            )
                         )}
                     </div>
                 </div>
 
             </div>
-
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable
-                pauseOnHover
-                theme="light"
-            />
-
         </div>
     );
 };

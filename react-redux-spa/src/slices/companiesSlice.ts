@@ -68,7 +68,7 @@ const companiesSlice = createSlice({
     });
 
     builder.addCase(getAllCompanies.fulfilled, (state: StateModel, action: any) => {
-      state.loadingStatus = fetchStatus.success;
+      state.loadingStatus = fetchStatus.fetchComplete;
       state.companies = action.payload;
     });
 
@@ -88,6 +88,7 @@ const companiesSlice = createSlice({
     builder.addMatcher(isAnyOf(createCompany.rejected, updateCompany.rejected, getCompanyById.rejected), (state: StateModel) => {
       state.loadingStatus = fetchStatus.error;
     });
+    
   }
 });
 

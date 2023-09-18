@@ -4,14 +4,13 @@ import { createCompany, getCompanyById, setLoadingStatus, updateCompany } from "
 import { AppDispatch } from "../store";
 import { fetchStatus } from "../models/FetchStatus";
 import { useParams } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-
 
 export const EditClient = () => {
 
     const state = useSelector((state: any) => {
         return state.companies;
     });
+    const dispatch = useDispatch<AppDispatch>();
 
     const [company, setCompany] = useState(state.currentCompany);
 
@@ -19,7 +18,9 @@ export const EditClient = () => {
         setCompany(state.currentCompany);
     }
 
-    const dispatch = useDispatch<AppDispatch>();
+    if (state.loadingStatus === fetchStatus.success) {
+        dispatch(setLoadingStatus());
+    }
 
     const params = useParams();
 
@@ -198,24 +199,17 @@ export const EditClient = () => {
                                 Sorry there was an error saving company details
                             </span>
                         ) : (
-                            null
+                            state.loadingStatus === fetchStatus.success ? (
+                                <span style={{ color: "green"}}>
+                                    Update successful
+                                </span>
+                            ) : (
+                                null
+                            )
                         )}
                     </div>
                 </div>
-
             </div>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable
-                pauseOnHover
-                theme="light"
-            />
         </div>
     );
 };
