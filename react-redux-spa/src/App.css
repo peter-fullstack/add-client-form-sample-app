@@ -5,8 +5,9 @@
 }
 
 .submit-form {
-  max-width: 300px;
+  max-width: 750px;
   margin: auto;
+  margin-bottom: 20px;
 }
 
 .edit-form {

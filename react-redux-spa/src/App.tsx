@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-//import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 
 import { ClientList } from "./components/ClientList";
 import { AddClient } from "./components/AddClient";
