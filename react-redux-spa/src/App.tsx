@@ -12,9 +12,6 @@ function App() {
   return (
     <Router>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <a href="/about" className="navbar-brand">
-          P Bradley
-        </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link to={"/clients"} className="nav-link">
