@@ -72,20 +72,34 @@ const companiesSlice = createSlice({
       state.companies = action.payload;
     });
 
-    builder.addCase(getAllCompanies.rejected, (state: any) => {
+    builder.addCase(getAllCompanies.rejected, (state: StateModel) => {
       state.loadingStatus = fetchStatus.error;
     });
 
-    builder.addMatcher(isAnyOf(createCompany.pending, updateCompany.pending, getCompanyById.pending), (state: StateModel) => {
+    
+    builder.addCase(getCompanyById.pending, (state: StateModel) => {
       state.loadingStatus = fetchStatus.loading;
     });
 
-    builder.addMatcher(isAnyOf(createCompany.fulfilled, updateCompany.fulfilled, getCompanyById.fulfilled), (state: StateModel, action: any) => {
+    builder.addCase(getCompanyById.fulfilled, (state: StateModel, action: any) => {
+      state.loadingStatus = fetchStatus.fetchComplete;
+      state.currentCompany = action.payload;
+    });
+
+    builder.addCase(getCompanyById.rejected, (state: StateModel) => {
+      state.loadingStatus = fetchStatus.error;
+    });
+
+    builder.addMatcher(isAnyOf(createCompany.pending, updateCompany.pending), (state: StateModel) => {
+      state.loadingStatus = fetchStatus.loading;
+    });
+
+    builder.addMatcher(isAnyOf(createCompany.fulfilled, updateCompany.fulfilled), (state: StateModel, action: any) => {
       state.loadingStatus = fetchStatus.success;
       state.currentCompany = action.payload;
     });
 
-    builder.addMatcher(isAnyOf(createCompany.rejected, updateCompany.rejected, getCompanyById.rejected), (state: StateModel) => {
+    builder.addMatcher(isAnyOf(createCompany.rejected, updateCompany.rejected), (state: StateModel) => {
       state.loadingStatus = fetchStatus.error;
     });
     

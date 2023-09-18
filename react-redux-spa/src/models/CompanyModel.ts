@@ -4,7 +4,7 @@ class CompanyModel {
     address: string = "";
     city: string = "";
     state: string = "";
-    role: string = "";
+    jobTitle: string = "";
     contactName: string = "";
     email: string = "";
     mobile: string = "";

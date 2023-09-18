@@ -20,6 +20,10 @@ export const AddClient = () => {
 
     if (state.loadingStatus === fetchStatus.success) {
         dispatch(setLoadingStatus());
+    }
+
+    if (state.loadingStatus === fetchStatus.success) {
+        dispatch(setLoadingStatus());
         navigate("/");
     }
 
@@ -64,7 +68,6 @@ export const AddClient = () => {
                                         type="text"
                                         className="form-control"
                                         id="address"
-                                        required
                                         value={company.address || ''}
                                         onChange={handleInputChange}
                                         name="address"
@@ -77,7 +80,6 @@ export const AddClient = () => {
                                         type="text"
                                         className="form-control"
                                         id="city"
-                                        required
                                         value={company.city || ''}
                                         onChange={handleInputChange}
                                         name="city"
@@ -110,7 +112,6 @@ export const AddClient = () => {
                                         type="text"
                                         className="form-control"
                                         id="contactName"
-                                        required
                                         value={company.contactName || ''}
                                         onChange={handleInputChange}
                                         name="contactName"
@@ -118,15 +119,14 @@ export const AddClient = () => {
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="role">Role</label>
+                                    <label htmlFor="jobTitle">Role</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="role"
-                                        required
-                                        value={company.role || ''}
+                                        id="jobTitle"
+                                        value={company.jobTitle || ''}
                                         onChange={handleInputChange}
-                                        name="role"
+                                        name="jobTitle"
                                     />
                                 </div>
 

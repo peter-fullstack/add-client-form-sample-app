@@ -7,20 +7,7 @@ import { useParams } from "react-router-dom";
 
 export const EditClient = () => {
 
-    const state = useSelector((state: any) => {
-        return state.companies;
-    });
     const dispatch = useDispatch<AppDispatch>();
-
-    const [company, setCompany] = useState(state.currentCompany);
-
-    if(company.id == null && state.currentCompany.id != null){
-        setCompany(state.currentCompany);
-    }
-
-    if (state.loadingStatus === fetchStatus.success) {
-        dispatch(setLoadingStatus());
-    }
 
     const params = useParams();
 
@@ -34,6 +21,16 @@ export const EditClient = () => {
         initFetch();
     }, [initFetch])
 
+    const state = useSelector((state: any) => {
+        return state.companies;
+    });
+
+    const [company, setCompany] = useState(state.currentCompany);
+
+    if(company.id !== state.currentCompany.id) {
+        setCompany(state.currentCompany);
+    }
+
     const handleInputChange = (event: FormEvent<HTMLInputElement>) => {
         if (state.loadingStatus !== fetchStatus.idle) {
             dispatch(setLoadingStatus());
@@ -43,7 +40,7 @@ export const EditClient = () => {
         setCompany({ ...company, [name]: value });
     };
 
-    const saveTutorial = () => {
+    const saveCompany = () => {
 
         if (company.id === null) {
             dispatch(createCompany(company));
@@ -134,15 +131,15 @@ export const EditClient = () => {
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="role">Role</label>
+                                    <label htmlFor="jobTitle">Role</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="role"
+                                        id="jobTitle"
                                         required
-                                        value={company.role || ''}
+                                        value={company.jobTitle || ''}
                                         onChange={handleInputChange}
-                                        name="role"
+                                        name="jobTitle"
                                     />
                                 </div>
 
@@ -178,7 +175,7 @@ export const EditClient = () => {
                 </div>
                 <div className="row">
                     <div className="col-6">
-                        <button onClick={saveTutorial} className="btn btn-success" style={{ width: "200px", margin: "10px" }}>
+                        <button onClick={saveCompany} className="btn btn-success" style={{ width: "200px", margin: "10px" }}>
                             {state.loadingStatus === fetchStatus.loading ? (
                                 <div>
                                     <span className="spinner-border spinner-border-sm">

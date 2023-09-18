@@ -24,7 +24,7 @@ export const ClientList = () => {
         return state.companies;
     });
 
-    if (state.loadingStatus !== fetchStatus.success) {
+    if (state.loadingStatus === fetchStatus.success) {
         dispatch(setLoadingStatus());
     }
 

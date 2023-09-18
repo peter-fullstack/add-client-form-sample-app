@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ClientDetailsApp.Data;
 using ClientDetailsApp.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ClientDetailsApp.Controllers
 {
@@ -55,7 +56,7 @@ namespace ClientDetailsApp.Controllers
 
             await _repository.Update(companyDetails);
 
-            return NoContent();
+            return Ok(companyDetails);
         }
 
         // POST: api/CompanyDetails
